@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ChatBot</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .chat-container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .chat-message {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container chat-container">
+        <h1 class="text-center">ChatBot</h1>
+        <div id="chat-display"></div>
+        <form id="chat-form">
+            <div class="input-group">
+                <input type="text" id="user-input" name="user_input" class="form-control" placeholder="메시지 입력">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">전송</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const chatDisplay = document.getElementById("chat-display");
+        const chatForm = document.getElementById("chat-form");
+        const userInput = document.getElementById("user-input");
+
+        chatForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            const userMessage = userInput.value.trim();
+            if (userMessage === "") return;
+
+            appendMessage("사용자", userMessage);
+
+            // AJAX 또는 fetch를 사용하여 서버에 사용자 입력 전송 및 챗봇 응답 받기
+            fetch("/submit", {
+                method: "POST",
+                body: new URLSearchParams({ user_input: userMessage }),
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    const chatbotMessage = data.message;
+                    appendMessage("챗봇", chatbotMessage);
+                })
+                .catch((error) => console.error(error));
+
+            userInput.value = "";
+        });
+
+        function appendMessage(role, message) {
+            const messageDiv = document.createElement("div");
+            messageDiv.className = `chat-message ${role === "사용자" ? "text-right" : "text-left"}`;
+            messageDiv.innerHTML = `<strong>${role}:</strong> ${message}`;
+            chatDisplay.appendChild(messageDiv);
+
+            // 스크롤을 가장 아래로 이동하여 최신 메시지를 보여줍니다.
+            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+        }
+    </script>
+</body>
+</html>
