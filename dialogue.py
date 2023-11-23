@@ -73,7 +73,7 @@ def receive():
 
     # 문장과 단어와의 유사도 비교
     test_sentence = content
-    test_words = ["라인", "놀러가자", "사귈래", "http"]
+    test_words = ["연락처", "놀러가자", "사귈래", "사진"]
 
     # 문장 토큰화
     sentence_tokens = komoran.morphs(test_sentence)

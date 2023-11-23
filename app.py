@@ -22,7 +22,7 @@ def encrypt_message(message, key):
 app = Flask(__name__)
 
 # OpenAI API 키 설정
-api_key = "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"
+api_key = ""
 
 # Flask 애플리케이션에서 openai 모듈사용
 openai.api_key = api_key
