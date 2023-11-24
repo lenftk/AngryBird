@@ -13,24 +13,24 @@
         var chart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['연락처', '놀러가자', '사귈래', '사진'],
+                labels: ['전화번호', '놀러가자', '사귈래', '사진'],
                 datasets: [{
-                    label: '연락처',
+                    label: ['전화번호'],
                     backgroundColor: ['rgb(75, 192, 192)', 'rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
                     data: {{ similarities[0] }},
                 },
                 {
-                    label: '놀러가자',
+                    label: ['놀러가자'],
                     backgroundColor: 'rgb(255, 99, 132)',
                     data: {{ similarities[1] }},
                 },
                 {
-                    label: '사귈래',
+                    label: ['사귈래'],
                     backgroundColor: 'rgb(54, 162, 235)',
                     data: {{ similarities[2] }},
                 }, 
                 {
-                    label: '사진',
+                    label: ['사진'],
                     backgroundColor: 'rgb(255, 205, 86)',
                     data: {{ similarities[3] }},
                 }]
@@ -70,7 +70,7 @@
         updateGraph();
 
         // 주기적으로 그래프 업데이트 (예: 1초마다)
-        setInterval(updateGraph,500);
+        setInterval(updateGraph,1000);
     </script>
 </body>
 </html>

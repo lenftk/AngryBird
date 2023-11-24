@@ -29,8 +29,6 @@ with open('user_data.csv', newline='', encoding='utf-8') as csvfile:
 
 komoran = Komoran()
 
-
-
 # SentenceTransformers 모델 로드
 model = SentenceTransformer("distiluse-base-multilingual-cased")
 
@@ -73,24 +71,19 @@ def receive():
 
     # 문장과 단어와의 유사도 비교
     test_sentence = content
-    test_words = ["연락처", "놀러가자", "사귈래", "사진"]
+    test_words = ["전화번호", "놀러가자", "사귈래", "사진"]
 
-    # 문장 토큰화
     sentence_tokens = komoran.morphs(test_sentence)
 
-    # 문장 임베딩 생성
     sentence_embedding = model.encode(test_sentence, convert_to_tensor=True)
 
     similarities = []
     for word in test_words:
-        # 단어 임베딩 생성
         word_embedding = model.encode(word, convert_to_tensor=True)
 
-        # 코사인 유사도 계산
         cosine_score = util.pytorch_cos_sim(sentence_embedding, word_embedding)
 
-        # 백분율로 변환하여 출력
-        similarity_percentage = (cosine_score.item() + 1) * 50  # [0, 100] 범위로 변환
+        similarity_percentage = (cosine_score.item() + 1) * 50
         print(f"단어 '{word}'와 문장 '{test_sentence}' 간의 유사도: {similarity_percentage:.2f}%")
         similarities.append(similarity_percentage)
 
@@ -116,4 +109,4 @@ def index():
     return render_template('graph.html', user_input=graph_data['user_input'], similarities=graph_data['similarities'])
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=5001)
+    app.run(host='0.0.0.0',debug=True,port=1557)
